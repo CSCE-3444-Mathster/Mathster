@@ -1,7 +1,7 @@
 //record audio from user microphone (using mic button?) on main landing page
 //Send to backend python script for processing (turn into text)
 import React, { useState } from 'react';
-import { FileButton, Button } from '@mantine/core';
+import { Button, Button } from '@mantine/core';
 
 export default function audio_input(){
     const [audioBlob, setAudioBlob] = useState();
