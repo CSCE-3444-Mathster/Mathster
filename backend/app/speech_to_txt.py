@@ -1,7 +1,6 @@
 #Recieves input from audio_input.jsx in frontend, processes audio into text, navigates to file input
 #Note: switch to different API than google (Sphinx?)
-#Link to microphone button
-#User clicks button->activates this script
+
 from flask import Blueprint, jsonify, request
 import os
 import speech_recognition
