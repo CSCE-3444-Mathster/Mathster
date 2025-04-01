@@ -20,7 +20,7 @@ export default function audio_input(){
             };
 
             mediaRecorder.onstop = async () => {
-                const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
                 setAudioBlob(audioBlob);
 
                 // Prepare the FormData to send the audio file
@@ -43,16 +43,27 @@ export default function audio_input(){
 
             mediaRecorder.start();
             console.log("Recording started...");
-            // Stop recording after 5 seconds (adjust as necessary)
+            
+            // Stop recording after 1.5 second(s) (adjust as necessary)
             setTimeout(() => {
                 mediaRecorder.stop();
                 console.log("Recording stopped...");
-            }, 5000); // Adjust the time as needed (in milliseconds)
+            }, 1500); // Adjust the time as needed (in milliseconds)
     } catch (error) {
         console.error('Error accessing microphone:', error);
         setResponse('Failed to access microphone');
     }
     };
-    
-    //return...
+
+    return (
+        <>
+          <div>
+            <h1>Speech Input:</h1>
+            <Button onChange={handleAudioRecord} accept="audio/wav">
+                {(props) => <Button {...props}>Record</Button>}
+            </Button>
+          </div>
+          <p>{response}</p>
+        </>
+      );
 }
