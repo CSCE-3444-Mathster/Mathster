@@ -2,11 +2,11 @@
 #Note: switch to different API than google (Sphinx?)--requires pip install SpeechRecognition[pocketsphinx] in req
 from flask import Blueprint, jsonify, request
 import os
-import speech_recognition
+import speech_recognition as sr
 import base64
 
 bp = Blueprint("audio-input", __name__, url_prefix="/audio-input")
-rec = speech_recognition.Recognizer()   #recognizes audio as words that can be converted 
+rec = sr.Recognizer()   #recognizes audio as words that can be converted 
 
 #read&encode 
 @bp.route("/", methods ="POST")
@@ -14,20 +14,28 @@ def speech_to_text():       #Process audio(wav) file into text
     if "image" not in request.files:
         return jsonify({"error": "No audio uploaded"}), 400
 
-    audio_text = request.files['audio']
+    audio_file = request.files['audio']
+    
+    try:
+        with sr.AudioFile(audio_file) as source:
+                audio = rec.record(source)
+                text = rec.recognize_sphinx(audio)
 
-    #FIXME: make following integrate w/ actual features:
-    if rec.recognize_google(audio_text)=="algebra": #FIXME: change to recognize_sphinx
-        #link to algebra route/click tab
-        #after linked, prompt image upload
-        print("algebra route")
-    elif rec.recognize_google(audio_text)=="geometry":  #FIXME: change to recognize_sphinx
-        #link to geometry route/click tab
-        #after linked, prompt image upload
-        print("geometry route")
-    elif rec.recognize_google(audio_text)=="graph": #FIXME: change to recognize_sphinx
-        #link to graph route/click tab
-        #after linked, prompt image upload
-        print("graph route")
-    else:
-        return jsonify({"error": "Unrecognized command"}), 400
+        #FIXME: make following integrate w/ actual features: send back valid text
+        if "algebra" in text.lower(): #FIXME: change to recognize_sphinx
+            #link to algebra route/click tab
+            #after linked, prompt image upload
+            print("algebra route")
+        elif "geometry" in text.lower():  # Check for "geometry"
+                print("geometry route")
+        elif "graph" in text.lower():  # Check for "graph"
+                print("graph route")
+        else:
+            return jsonify({"error": "Unrecognized command"}), 400
+        return jsonify({"recognized_text": text}), 200
+        
+    except sr.UnknownValueError:
+        return jsonify({"error": "Could not understand the audio"}), 400
+    except sr.RequestError as e:
+        return jsonify({"error": f"Error with PocketSphinx: {e}"}), 500
+    # Respond with the recognized text
