@@ -3,10 +3,10 @@
 //Receive text from backend, navigate to correct UI element
 import React, { useState } from 'react';
 import { Button } from '@mantine/core';
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 
 export default function audio_input(){
-    const [audioBlob, setAudioBlob] = useState();
+    //const [audioBlob, setAudioBlob] = useState();
     const [response, setResponse] = useState()
 
     const handleAudioRecord = async () => {
@@ -22,12 +22,13 @@ export default function audio_input(){
             };
 
             mediaRecorder.onstop = async () => {
-                audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-                setAudioBlob(audioBlob);
+                // Create a Blob from the audioChunks
+                const newAudioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                //setAudioBlob(newAudioBlob);  // Use setAudioBlob to update the state
 
-                // Prepare the FormData to send the audio file
+                // Now use the updated audioBlob in FormData
                 const formData = new FormData();
-                formData.append('audio', audioBlob, 'audio.wav'); // Append the recorded audio blob
+                formData.append('audio', newAudioBlob, 'audio.wav'); // Append the new recorded audio blob
 
                 // Send the audio to the backend via a POST request
                 try {
@@ -38,6 +39,10 @@ export default function audio_input(){
                     });
                     const data = await response.json();
 
+                    // Log response text to check for issues
+                    const text = await response.text();
+                    console.log('Backend response:', text); // Check if it's a valid JSON string
+                    
                     // Check for recognized text from the backend
                     const recognizedText = data.recognized_text;
                     setResponse(recognizedText);  // Display the backend's response
@@ -81,13 +86,12 @@ export default function audio_input(){
     //Button:when pressed, record audio
     return (
         <>
-          <div>
-            <h1>Speech Input:</h1>
+        <div>
             <Button onClick={handleAudioRecord}>    
                 Record
             </Button>
-          </div>
-          <p>{response}</p>
+        </div>
+            <p>{response}</p>
         </>
       );
 }
