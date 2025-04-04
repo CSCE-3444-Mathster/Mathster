@@ -1,7 +1,9 @@
 //record audio from user microphone (using mic button?) on main landing page
 //Send to backend python script for processing (turn into text)
+//Receive text from backend, navigate to correct UI element
 import React, { useState } from 'react';
 import { Button } from '@mantine/core';
+import { useNavigate } from 'react-router-dom';
 
 export default function audio_input(){
     const [audioBlob, setAudioBlob] = useState();
@@ -29,12 +31,32 @@ export default function audio_input(){
 
                 // Send the audio to the backend via a POST request
                 try {
+                    //change to: not VITE API, UI navigation. Response will just be text
                     const response = await fetch(`${import.meta.env.VITE_API_URL}/audio-input/`, {
                         method: 'POST',
                         body: formData,
                     });
                     const data = await response.json();
-                    setResponse(data.response);  // Display the backend's response
+
+                    // Check for recognized text from the backend
+                    const recognizedText = data.recognized_text;
+                    setResponse(recognizedText);  // Display the backend's response
+                    
+                    // Perform UI navigation based on the recognized text
+                    if (recognizedText) {
+                        if (recognizedText.toLowerCase().includes("algebra")) {
+                            navigate('/algebra');  // Navigate to the algebra route
+                        } else if (recognizedText.toLowerCase().includes("geometry")) {
+                            navigate('/geometry');  // Navigate to the geometry route
+                        } else if (recognizedText.toLowerCase().includes("graph")) {
+                            navigate('/graph');  // Navigate to the graph route
+                        } else {
+                            setResponse("Unrecognized command, please try again.");
+                        }
+                    } else {
+                        setResponse("No valid speech detected.");
+                    }
+
                 } catch (error) {
                     setResponse('Error uploading audio');
                     console.error('Error uploading audio:', error);
@@ -43,7 +65,7 @@ export default function audio_input(){
 
             mediaRecorder.start();
             console.log("Recording started...");
-            
+
             // Stop recording after 1.5 second(s) (adjust as necessary)
             setTimeout(() => {
                 mediaRecorder.stop();
@@ -55,12 +77,14 @@ export default function audio_input(){
     }
     };
 
+    //change return to: receive returned text from backend (will be valid command)->navigate UI
+    //Button:when pressed, record audio
     return (
         <>
           <div>
             <h1>Speech Input:</h1>
-            <Button onChange={handleAudioRecord} accept="audio/wav">
-                {(props) => <Button {...props}>Record</Button>}
+            <Button onClick={handleAudioRecord}>    
+                Record
             </Button>
           </div>
           <p>{response}</p>
