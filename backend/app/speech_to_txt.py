@@ -25,14 +25,16 @@ def speech_to_text():       #Process audio(wav) file into text
         if "algebra" in text.lower(): #FIXME: change to recognize_sphinx
             #link to algebra route/click tab
             #after linked, prompt image upload
-            print("algebra route")
+            return jsonify({"recognized_text": text}), 200
         elif "geometry" in text.lower():  # Check for "geometry"
                 print("geometry route")
+                return jsonify({"recognized_text": text}), 200
         elif "graph" in text.lower():  # Check for "graph"
                 print("graph route")
+                return jsonify({"recognized_text": text}), 200
         else:
             return jsonify({"error": "Unrecognized command"}), 400
-        return jsonify({"recognized_text": text}), 200
+        #return jsonify({"recognized_text": text}), 200
         
     except sr.UnknownValueError:
         return jsonify({"error": "Could not understand the audio"}), 400
