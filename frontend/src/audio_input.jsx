@@ -3,11 +3,12 @@
 //Receive text from backend, navigate to correct UI element
 import React, { useState } from 'react';
 import { Button } from '@mantine/core';
-//import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function audio_input(){
     //const [audioBlob, setAudioBlob] = useState();
     const [response, setResponse] = useState()
+    const navigate = useNavigate(); // Initialize the navigate function
 
     const handleAudioRecord = async () => {
         try {
@@ -53,11 +54,11 @@ export default function audio_input(){
                     // Perform UI navigation based on the recognized text
                     if (recognizedText) {
                         if (recognizedText.toLowerCase().includes("algebra")) {
-                            navigate('/algebra');  // Navigate to the algebra route
+                            navigate('/Algebra');  // Navigate to the algebra route
                         } else if (recognizedText.toLowerCase().includes("geometry")) {
-                            navigate('/geometry');  // Navigate to the geometry route
+                            navigate('/Geometry');  // Navigate to the geometry route
                         } else if (recognizedText.toLowerCase().includes("graph")) {
-                            navigate('/graph');  // Navigate to the graph route
+                            navigate('/Graph');  // Navigate to the graph route
                         } else {
                             setResponse("Unrecognized command, please try again.");
                         }
