@@ -29,15 +29,14 @@ export default function App() {
             <Tabs.Tab value="algebra">Algebra</Tabs.Tab>
           </Tabs.List>
         </Tabs>
+        {/* Button to start recording */}
+        {/* Always render AudioInput regardless of button press */}
         <AudioInput />
       </div>
         <div>
           {activeTab === "graph" && <Graph />}
           {activeTab === "geometry" && <Geometry />}
           {activeTab === "algebra" && <Algebra />}
-          {/* Button to start recording */}
-          {/* Always render AudioInput regardless of button press */}
-          
         </div>
 
         <div>
