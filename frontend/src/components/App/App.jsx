@@ -6,7 +6,7 @@ import { Tabs } from '@mantine/core';
 import Graph from '../Graph/Graph.jsx';
 import Geometry from '../Geometry/Geometry.jsx';
 import Algebra from '../Algebra/Algebra.jsx';
-import AudioInput from '../audio-input.jsx';
+import AudioInput from '../AudioInput/audio-input.jsx';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState();
