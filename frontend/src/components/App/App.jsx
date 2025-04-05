@@ -3,7 +3,6 @@ import './App.css'
 import '@mantine/core/styles.css';
 import { MantineProvider } from '@mantine/core';
 import { Tabs } from '@mantine/core';
-import { Button } from '@mantine/core';
 import Graph from '../Graph/Graph.jsx';
 import Geometry from '../Geometry/Geometry.jsx';
 import Algebra from '../Algebra/Algebra.jsx';
@@ -14,9 +13,9 @@ export default function App() {
   const [showAudioInput, setShowAudioInput] = useState(false); // Manage the visibility of the audio input
 
   // Toggle the visibility of the audio input when the record button is pressed
-  const handleRecordAudio = () => {
-    setShowAudioInput(true);
-  };
+  //const handleRecordAudio = () => {
+  //  setShowAudioInput(true);
+  //};
 
   return (
     <>
