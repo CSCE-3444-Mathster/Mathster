@@ -39,12 +39,15 @@ export default function audio_input(){
                     });
                     const data = await response.json();
 
+                    // Log the backend response data to inspect the structure
+                    console.log('Backend data:', data);
+
                     // Log response text to check for issues
                     const text = await response.text();
                     console.log('Backend response:', text); // Check if it's a valid JSON string
-                    
+
                     // Check for recognized text from the backend
-                    const recognizedText = data.recognized_text;
+                    const recognizedText = data.text;
                     setResponse(recognizedText);  // Display the backend's response
                     
                     // Perform UI navigation based on the recognized text
@@ -87,7 +90,7 @@ export default function audio_input(){
     return (
         <>
         <div>
-            <Button onClick={handleAudioRecord}>    
+            <Button onClick={handleAudioRecord}>
                 Record
             </Button>
         </div>
