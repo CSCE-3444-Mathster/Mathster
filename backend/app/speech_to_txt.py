@@ -11,10 +11,10 @@ rec = sr.Recognizer()   #recognizes audio as words that can be converted
 #read&encode 
 @bp.route("/", methods ="POST")
 def speech_to_text():       #Process audio(wav) file into text
-    if "image" not in request.files:
+    if "audio" not in request.files:
         return jsonify({"error": "No audio uploaded"}), 400
 
-    audio_file = request.files['audio']
+    audio_file = request.files["audio"]
     
     try:
         with sr.AudioFile(audio_file) as source:
