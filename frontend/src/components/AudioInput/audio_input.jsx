@@ -29,7 +29,7 @@ export default function audio_input(){
 
                 // Now use the updated audioBlob in FormData
                 const formData = new FormData();
-                formData.append('audio', newAudioBlob, 'audio.wav'); // Append the new recorded audio blob
+                formData.append('audio', newAudioBlob); // Append the new recorded audio blob
 
                 // Send the audio to the backend via a POST request
                 try {
