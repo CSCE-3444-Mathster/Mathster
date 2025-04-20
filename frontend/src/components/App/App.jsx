@@ -6,6 +6,7 @@ import Auth from '../Auth/Auth.jsx';
 import Graph from '../Graph/Graph.jsx';
 import Geometry from '../Geometry/Geometry.jsx';
 import Algebra from '../Algebra/Algebra.jsx';
+import audioInput from '../audio-input.jsx'
 
 export default function App() {
   const [activeTab, setActiveTab] = useState();
