@@ -11,13 +11,14 @@ import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognitio
 
 //Now: records audio, recognized commands, returns recognition of command
 //Change to: UI Navigation
-const RecordAudio = ({ setActiveTab }) => {
+const RecordAudio = ({ setActiveTab, fileButtonRef }) => {
     const [message, setMessage] = useState('');
     //const navigate=useNavigate();
 
     const commands = [
         {
-            command: ['algebra', 'geometry', 'graph', 'sign in', 'log in', 'file upload'],
+            command: ['algebra', 'geometry', 'graph', 'sign in', 'log in', 'file upload', 'image upload', 'upload',
+                      'upload image', 'upload file'],
             callback: (command) => {
                 console.log('Voice command received:', command);
                 let commandStr = command.command.toLowerCase();
@@ -29,6 +30,12 @@ const RecordAudio = ({ setActiveTab }) => {
                 }
                 if(commandStr === "sign in"||commandStr === "log in"){
                     setActiveTab("Sign In");
+                }
+                // Trigger file upload button click when the command is "file upload"
+                if (commandStr === "file upload") {
+                    if (fileButtonRef && fileButtonRef.current) {
+                        fileButtonRef.current.click(); // Programmatically click the "Upload Image" button
+                    }
                 }
             }
         }
