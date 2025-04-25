@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { BrowserRouter as Router } from 'react-router-dom';
 import './App.css'
 import '@mantine/core/styles.css';
 import { MantineProvider, Center, Tabs } from '@mantine/core';
@@ -6,18 +7,20 @@ import Auth from '../Auth/Auth.jsx';
 import Graph from '../Graph/Graph.jsx';
 import Geometry from '../Geometry/Geometry.jsx';
 import Algebra from '../Algebra/Algebra.jsx';
-import audioInput from '../audio-input.jsx'
+import RecordAudio from '/audio-input.jsx'
 
 export default function App() {
   const [activeTab, setActiveTab] = useState();
   const [signedIn, setSignedIn] = useState(false);
  
   return (
-    <>
+    <Router>
       <MantineProvider>
         <div>
           <h1>MATHSTER</h1>
         </div>
+        <RecordAudio />
+
         <div className='tab'>
           <Tabs value={activeTab} onChange={setActiveTab} allowTabDeactivation>
             <Tabs.List style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
@@ -41,6 +44,6 @@ export default function App() {
         <Center>{activeTab === "Sign In" && !signedIn && <Auth setSignedIn={setSignedIn}/>}</Center>
         
       </MantineProvider>
-    </>
+    </Router>
   )
 }
