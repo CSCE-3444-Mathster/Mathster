@@ -6,29 +6,34 @@
 //TODO: add UI nav wrapper/UI navigation functionality
 import './audio-input.css'
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
 //Now: records audio, recognized commands, returns recognition of command
 //Change to: UI Navigation
-const RecordAudio = () => {
+const RecordAudio = ({ setActiveTab }) => {
     const [message, setMessage] = useState('');
-    const navigate=useNavigate();
+    //const navigate=useNavigate();
 
     const commands = [
         {
             command: ['algebra', 'geometry', 'graph', 'sign in', 'log in', 'file upload'],
             callback: (command) => {
-                const route = command.toLowerCase();
-                //if log in/sign in: redirect to Auth
-                setMessage(`You said: ${command}`);
-                setMessage(`Navigating to: ${route}`);
-                navigate(`/${route}`);
+                console.log('Voice command received:', command);
+                let commandStr = command.command.toLowerCase();
+                console.log('Formatted command:', commandStr);
+                setMessage(`You said: ${commandStr}`);
+                setMessage(`Navigating to: ${commandStr}`);
+                if (commandStr === "algebra" || commandStr === "geometry" || commandStr === "graph") {
+                    setActiveTab(commandStr);
+                }
+                if(commandStr === "sign in"||commandStr === "log in"){
+                    setActiveTab("Sign In");
+                }
             }
         }
     ]
     const {
-        transcript,
         listening,
         resetTranscript,
         browserSupportsSpeechRecognition
@@ -40,12 +45,14 @@ const RecordAudio = () => {
 
     return (
         <div>
-          
-          <button onClick={SpeechRecognition.startListening}>Start</button>
-          <button onClick={SpeechRecognition.stopListening}>Stop</button>
-          <button onClick={resetTranscript}>Reset</button>
+          {/* Microphone status display */}
+            <p style={{ fontWeight: 'bold', marginTop: '10px' }}>
+                Microphone is: {listening ? '🎤 ON' : '🔇 OFF'}
+            </p>
+          <button className="butt" onClick={SpeechRecognition.startListening}>Start</button>
+          <button className="butt" onClick={SpeechRecognition.stopListening}>Stop</button>
+          <button className="butt" onClick={resetTranscript}>Reset</button>
           <p>{message}</p>
-          <p>{transcript}</p>
         </div>
     );
 };

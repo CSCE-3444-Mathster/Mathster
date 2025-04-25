@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css'
 import '@mantine/core/styles.css';
 import { MantineProvider, Center, Tabs } from '@mantine/core';
@@ -19,8 +19,10 @@ export default function App() {
         <div>
           <h1>MATHSTER</h1>
         </div>
-        <RecordAudio />
-
+        <div style={{ margin: '20px 0' }}>
+          <RecordAudio setActiveTab={setActiveTab} />
+        </div>
+        
         <div className='tab'>
           <Tabs value={activeTab} onChange={setActiveTab} allowTabDeactivation>
             <Tabs.List style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
